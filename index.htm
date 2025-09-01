@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SSTs Paid Course By Imran Ustad - English Class 9 Unit 15 MCQs</title>
+    <!-- Use Tailwind CSS for modern, responsive styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Include html2canvas for capturing the result as a PNG -->
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+    <style>
+        /* Define a custom font family for Georgia */
+        .font-georgia {
+            font-family: Georgia, serif;
+        }
+
+        /* Style for the custom modal box */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(5px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+        }
+
+        .modal-content {
+            background-color: #ffffff;
+            padding: 2.5rem;
+            border-radius: 1rem;
+            text-align: center;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+            transform: translateY(-50px);
+            opacity: 0;
+            transition: all 0.3s ease-in-out;
+        }
+        
+        .modal-overlay.active .modal-content {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* Button Gradient for Submit */
+        .submit-btn {
+            background-image: linear-gradient(to right, #10b981, #059669);
+            transition: all 0.3s ease;
+        }
+        .submit-btn:hover {
+            box-shadow: 0 4px 15px rgba(5, 150, 105, 0.4);
+        }
+
+        /* Option Hover and Selected Effect with new dark green color and no zoom */
+        .quiz-option-label {
+            transition: all 0.3s ease-in-out;
+        }
+        
+        /* Change background on hover */
+        .quiz-option-label:hover {
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            background-color: #059669; /* Dark green background */
+        }
+        
+        /* Change text color to white on hover */
+        .quiz-option-label:hover span {
+            color: #ffffff;
+        }
+        
+        /* Selected option styling */
+        .quiz-option-label.selected {
+            background-color: #059669; /* Dark green background */
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* Ensures text inside selected option is white */
+        .quiz-option-label.selected span {
+            color: #ffffff;
+        }
+        
+        /* Hide the default radio button while keeping it functional */
+        .quiz-option-label input[type="radio"] {
+            display: none;
+        }
+        
+        /* Adjust main layout to ensure all components fit on screen */
+        .main-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            flex-grow: 1; /* Allows the container to fill available space */
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+        }
+
+        /* On smaller screens, adjust padding to prevent content overflow */
+        @media (max-width: 640px) {
+            .quiz-content-wrapper {
+                padding: 1rem;
+            }
+        }
+        
+        /* No zoom effect on buttons */
+        .no-zoom:hover {
+            transform: none !important;
+        }
+        
+        /* Style for the temporary div used for image generation */
+        #download-result-container {
+            position: absolute;
+            top: -9999px; /* Hide off-screen */
+            left: -9999px;
+            width: 800px; /* A fixed width for consistent image output */
+            background-color: white;
+            padding: 2rem;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        #download-result-container .header-clone,
+        #download-result-container .footer-clone {
+            text-align: center;
+            padding: 1rem;
+            background-color: #10b981;
+            color: white;
+        }
+        #download-result-container .results-clone {
+            padding: 2rem;
+            text-align: center;
+        }
+        #download-result-container .results-clone p,
+        #download-result-container .results-clone h2 {
+            text-align: center;
+        }
+        #download-result-container .results-clone .mb-3 {
+            margin-bottom: 0.75rem;
+        }
+        #download-result-container .results-clone .mb-6 {
+            margin-bottom: 1.5rem;
+        }
+
+        /* New styling for the full quiz review section */
+        .quiz-review-item {
+            border: 1px solid #e5e7eb;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            background-color: #fafafa;
+        }
+
+        .quiz-review-question {
+            font-weight: 700;
+            color: #FF0000; /* Bright red */
+            margin-bottom: 0.75rem;
+            font-size: 1.125rem; /* text-lg */
+        }
+
+        .quiz-review-option {
+            padding: 0.5rem;
+            border-radius: 0.375rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .quiz-review-option.correct {
+            background-color: #dcfce7; /* green-100 */
+            color: #065f46; /* green-800 */
+            font-weight: 600;
+        }
+        .quiz-review-option.incorrect {
+            background-color: #fee2e2; /* red-100 */
+            color: #991b1b; /* red-800 */
+        }
+        
+        /* --- FIX: Updated the media print query to correctly display the results container --- */
+        @media print {
+            /* Hide the main header and footer, as well as the button container */
+            .no-print,
+            #name-entry-container,
+            #quiz-content-wrapper {
+                display: none !important;
+            }
+            
+            /* Ensure the main container holding the results is fully visible and styled for printing */
+            .container {
+                box-shadow: none !important;
+                border: none !important;
+                padding: 0 !important;
+                margin: 0 !important;
+                width: auto !important;
+                max-width: none !important;
+                height: auto !important;
+            }
+
+            /* Ensure the results container itself is visible and formatted for a clean printout */
+            #results-container {
+                display: block !important;
+                box-shadow: none !important;
+                border: none !important;
+                padding: 0 !important;
+                margin: 0 !important;
+                background-color: #ffffff !important;
+            }
+        }
+
+        /* Custom CSS for the video container to maintain a 16:9 aspect ratio */
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            height: 0;
+            overflow: hidden;
+            max-width: 100%;
+            background: #000;
+            border-radius: 1rem;
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Styling for the question number circle */
+        .question-number-circle {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            width: 30px; /* Adjust size as needed */
+            height: 30px; /* Adjust size as needed */
+            border-radius: 50%;
+            background-color: #059669; /* Green color */
+            color: #ffffff; /* White text */
+            font-weight: bold;
+            margin-right: 10px;
+            flex-shrink: 0; /* Prevent shrinking */
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-emerald-50 to-green-100 min-h-screen flex flex-col justify-between items-center">
+
+    <!-- Stylized Green Header Label with user info -->
+    <div id="header" class="no-print w-full bg-gradient-to-r from-green-700 to-emerald-600 text-white text-center py-5 text-4xl font-extrabold rounded-b-3xl">
+        <h1 class="text-4xl font-extrabold mb-1">SSTs Paid Course By Imran Ustad</h1>
+        <h2 class="text-3xl font-bold">English Class 9 Unit 15: Abou Ben Adhem</h2>
+        <h3 class="text-xl font-semibold mt-2">Topics: Direct and Indirect Speech, Active/Passive Voice, Punctuation</h3>
+        <p class="text-base">Test Complexity: Bachelor Level</p>
+        <p class="text-base mt-1">
+            <a href="https://www.youtube.com/@TheImranUstad" target="_blank" rel="noopener noreferrer" class="text-white hover:text-gray-200 transition-colors">
+                https://www.youtube.com/@TheImranUstad
+            </a>
+        </p>
+    </div>
+
+    <!-- Main quiz container with enhanced styling -->
+    <div class="container max-w-5xl mx-auto rounded-3xl shadow-2xl bg-white p-8 sm:p-12 my-8 flex-1 flex flex-col justify-center items-center">
+        
+        <!-- Name entry container (initial screen) -->
+        <div id="name-entry-container" class="w-full max-w-md text-center p-8 bg-gray-50 rounded-3xl shadow-inner border-t-4 border-green-500">
+            <h2 class="text-3xl font-extrabold text-green-700 mb-6">Welcome to the Quiz!</h2>
+            <p class="text-lg text-gray-700 mb-4">Please enter your name to begin.</p>
+            <input type="text" id="name-input" placeholder="Enter your name" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500 mb-6 text-center text-lg">
+            <button id="start-btn" class="w-full text-white font-bold py-3.5 rounded-full shadow-lg transition-colors bg-blue-600 hover:bg-blue-700 no-zoom">
+                Start Quiz
+            </button>
+        </div>
+        
+        <!-- Quiz content wrapper (initially hidden) -->
+        <div id="quiz-content-wrapper" class="hidden w-full">
+            <!-- Controls and Timer section (Reversed for right alignment) -->
+            <div class="flex flex-col sm:flex-row justify-between items-center mb-6 gap-4">
+                <!-- This div is for navigation buttons (currently empty) -->
+                <div class="flex gap-4">
+                    <!-- Navigation buttons will be dynamically shown here -->
+                </div>
+                <!-- Timer is now on the right -->
+                <div class="flex items-center space-x-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-red-600" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd" />
+                    </svg>
+                    <span class="text-xl font-semibold text-gray-700">Time Left:</span>
+                    <span id="timer" class="text-3xl font-bold text-red-600 bg-red-100 px-5 py-2.5 rounded-xl shadow-inner">80:00</span>
+                </div>
+            </div>
+
+            <!-- Quiz questions container -->
+            <div id="quiz-form" class="space-y-4">
+                <!-- Questions and navigation buttons will be dynamically inserted here by JavaScript -->
+            </div>
+        </div>
+
+        <!-- Results container (initially hidden) -->
+        <div id="results-container" class="hidden mt-8 p-8 bg-gray-50 rounded-3xl shadow-inner border-t-4 border-green-500 w-full">
+            <h2 class="text-2xl sm:text-3xl font-extrabold text-center mb-4 text-green-700">Quiz Results</h2>
+            <p class="text-lg mb-3 text-center">
+                <span id="user-name-result" class="font-extrabold text-green-600"></span>
+            </p>
+            <p class="text-lg mb-3">
+                Total Questions: <span id="total-questions" class="font-extrabold text-green-600"></span>
+            </p>
+            <p class="text-lg mb-6">
+                Obtained Marks: <span id="obtained-marks" class="font-extrabold text-green-600"></span>
+            </p>
+
+            <!-- Video Container - Moved to appear on the results page -->
+            <div class="w-full mx-auto my-8">
+                <div class="bg-white p-6 rounded-3xl shadow-2xl">
+                    <h3 class="text-xl sm:text-2xl font-extrabold text-center mb-6 text-green-700">Preparation Guide: KPPSC SST Syllabus 2025</h3>
+                    <div class="video-container">
+                        <iframe width="695" height="391" src="https://www.youtube.com/embed/sFzdY39_Kw8" title="KPPSC SST Syllabus 2025 KPK | SST General, Maths-Physics, Bio-Chem | Past Papers &amp; Preparation Guide" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-o" allowfullscreen></iframe>
+                    </div>
+                </div>
+            </div>
+
+            <div id="full-quiz-review" class="mt-8">
+                <h3 class="text-xl font-bold text-gray-700 mb-4">Quiz Review:</h3>
+                <!-- The full quiz review will be displayed here -->
+            </div>
+            
+            <!-- Button container for the new download button and the print button -->
+            <div class="no-print flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 mt-8">
+                <!-- Download button for results as PNG -->
+                <button id="download-btn" class="w-full bg-indigo-600 text-white font-bold py-3.5 rounded-full shadow-md hover:bg-indigo-700 transition-colors no-zoom">
+                    Download Result Card (PNG)
+                </button>
+                <!-- Print Result button -->
+                <button id="print-btn" class="w-full bg-blue-600 text-white font-bold py-3.5 rounded-full shadow-md hover:bg-blue-700 transition-colors no-zoom">
+                    Print Result
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Custom modal for validation/errors -->
+    <div id="validation-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <p id="modal-message" class="text-xl font-semibold mb-6 text-gray-800"></p>
+            <button id="modal-close-btn" class="bg-red-500 text-white font-bold py-2.5 px-6 rounded-full hover:bg-red-600 transition-colors no-zoom">
+                Close
+            </button>
+        </div>
+    </div>
+    
+    <!-- Updated Green Footer Label with enhanced styling -->
+    <footer id="footer" class="no-print w-full bg-gradient-to-r from-green-700 to-emerald-600 text-white text-center py-6 text-2xl font-semibold rounded-t-3xl">
+        <h3 class="text-2xl font-extrabold mb-1">By Imran Ustad</h3>
+        <p class="text-base mb-1">WhatsApp: 03345501369</p>
+        <p class="text-base">
+            <a href="https://www.youtube.com/@TheImranUstad" target="_blank" rel="noopener noreferrer" class="text-white hover:text-gray-200 transition-colors">
+                https://www.youtube.com/@TheImranUstad
+            </a>
+        </p>
+    </footer>
+
+    <script>
+        // Array of 80 MCQs covering various grammar topics at a Bachelor level
+        const allQuestions = [
+            { question: "1. The teacher said, 'The Earth revolves around the sun.' The indirect speech is:", options: ["The teacher said that the Earth revolves around the sun.", "The teacher said that the Earth revolved around the sun.", "The teacher said that the Earth had revolved around the sun.", "The teacher said that the Earth was revolving around the sun."], correct: 0 },
+            { question: "2. The phrase 'a well-intentioned but flawed plan' uses a hyphen to:", options: ["Link two nouns.", "Join a compound adjective.", "Separate a prefix.", "Indicate a pause."], correct: 1 },
+            { question: "3. Choose the sentence with a correctly placed ellipsis:", options: ["'The truth is... I don't know.'", "'The truth is...I don't know.'", "'The truth is ... I don't know.'", "'The truth is. . . I don't know.'"], correct: 0 },
+            { question: "4. Identify the correct use of quotation marks:", options: ["She said, \"The article is titled 'The Power of Words.'\"", "She said, 'The article is titled \"The Power of Words.\"'", "She said, \"The article is titled 'The Power of Words.'\"", "She said, \"The article is titled 'The Power of Words.'\""], correct: 3 },
+            { question: "5. 'The report was written by an expert.' The active voice is:", options: ["An expert writes the report.", "An expert wrote the report.", "The expert had written the report.", "The expert has written the report."], correct: 1 },
+            { question: "6. Which sentence correctly uses parentheses for a non-essential phrase?", options: ["The new policy (which is controversial) will be debated.", "The new policy (which is controversial will be debated).", "The new policy which is controversial (will be debated).", "The new policy (which is controversial) will be debated."], correct: 0 },
+            { question: "7. 'They have been building the bridge since last year.' The passive voice is:", options: ["The bridge has been built by them since last year.", "The bridge is being built by them since last year.", "The bridge has been being built by them since last year.", "The bridge had been built by them since last year."], correct: 2 },
+            { question: "8. 'The politician promised to work tirelessly for the people (a promise he had made before)'. The parenthetical phrase adds:", options: ["A new idea.", "A contradictory statement.", "A clarifying detail.", "An essential piece of information."], correct: 2 },
+            { question: "9. The use of a hyphen is incorrect in which of the following?", options: ["A state-of-the-art facility.", "A seventy-five-year-old man.", "A long-term project.", "A quickly-developing situation."], correct: 3 },
+            { question: "10. 'He said, 'I will meet you at the library.' ' The indirect speech is:", options: ["He said that he would meet me at the library.", "He said that he will meet me at the library.", "He said that he would have met me at the library.", "He said that he will be meeting me at the library."], correct: 0 },
+            { question: "11. When is an ellipsis used to show a thought trailing off?", options: ["At the beginning of a sentence.", "At the end of a sentence.", "In the middle of a sentence.", "In a formal quote."], correct: 1 },
+            { question: "12. 'The book, \"To Kill a Mockingbird,\" is a classic.' What is the correct way to use quotation marks for the book title?", options: ["The book, 'To Kill a Mockingbird,' is a classic.", "The book, 'To Kill a Mockingbird', is a classic.", "The book, “To Kill a Mockingbird,” is a classic.", "The book, 'To Kill a Mockingbird,' is a classic."], correct: 2 },
+            { question: "13. 'The experiment was performed with great care.' The active voice is:", options: ["They performed the experiment with great care.", "The scientists perform the experiment with great care.", "They have performed the experiment with great care.", "The experiment performs with great care."], correct: 0 },
+            { question: "14. A hyphen is used in 'self-confident' because:", options: ["It links a prefix to a root word.", "It is a compound adjective.", "It is a common grammatical convention.", "The words cannot stand alone."], correct: 0 },
+            { question: "15. The phrase '...and then he left' at the beginning of a quote indicates:", options: ["A pause.", "Words were omitted from the start of the quote.", "The speaker is hesitant.", "An unfinished thought."], correct: 1 },
+            { question: "16. 'The students are being taught by a new teacher.' The active voice is:", options: ["A new teacher taught the students.", "A new teacher is teaching the students.", "A new teacher was teaching the students.", "A new teacher has taught the students."], correct: 1 },
+            { question: "17. What is the difference in meaning between 'The student (a brilliant mind) passed' and 'The student, a brilliant mind, passed'?", options: ["No difference.", "Parentheses imply greater separation and less essential info.", "Commas imply greater separation and more essential info.", "Parentheses are always for lists."], correct: 1 },
+            { question: "18. Which statement is in the passive voice?", options: ["The council is considering the proposal.", "The dog chased the cat.", "The poem was written by John.", "He gave her a gift."], correct: 2 },
+            { question: "19. The use of double quotation marks is most appropriate for:", options: ["Short story titles.", "Poem titles.", "Direct speech.", "Book titles."], correct: 2 },
+            { question: "20. 'They said, 'We are going to Paris next month.' ' The indirect speech is:", options: ["They said that they were going to Paris the next month.", "They said that they are going to Paris the next month.", "They said that we were going to Paris next month.", "They said that they would be going to Paris next month."], correct: 0 },
+            { question: "21. 'A twenty-minute walk' correctly uses a hyphen to form a:", options: ["Compound noun.", "Compound adjective.", "Adverbial phrase.", "Gerund phrase."], correct: 1 },
+            { question: "22. The passive voice of 'Someone stole my wallet.' is:", options: ["My wallet was stolen.", "My wallet is stolen.", "My wallet has been stolen.", "Someone's wallet was stolen."], correct: 0 },
+            { question: "23. Choose the sentence where parentheses are used incorrectly:", options: ["The flight was delayed (it was due to bad weather).", "The flight was delayed (due to bad weather).", "The flight (it was due to bad weather) was delayed.", "The flight, (due to bad weather), was delayed."], correct: 3 },
+            { question: "24. 'She wondered if he would ever come back...' The ellipsis here suggests:", options: ["An omission of words.", "A dramatic pause or an unfinished thought.", "An interruption in speech.", "A long list of possibilities."], correct: 1 },
+            { question: "25. The active voice of 'A new hospital will be built in our town.' is:", options: ["They will build a new hospital in our town.", "A new hospital is being built in our town.", "Someone is building a new hospital in our town.", "Our town will build a new hospital."], correct: 0 },
+            { question: "26. When quoting a phrase inside a quote, which marks are used?", options: ["Single quotation marks.", "Double quotation marks.", "Parentheses.", "Ellipsis."], correct: 0 },
+            { question: "27. 'The well-regarded expert' uses a hyphen because 'well-regarded' is a:", options: ["Noun phrase.", "Compound adverb.", "Compound adjective.", "Hyphenated verb."], correct: 2 },
+            { question: "28. 'He exclaimed, 'What a beautiful day!' ' The indirect speech is:", options: ["He exclaimed that it was a beautiful day.", "He exclaimed what a beautiful day it was.", "He asked what a beautiful day it was.", "He exclaimed that what a beautiful day it was."], correct: 1 },
+            { question: "29. The sentence 'The dog (a golden retriever) chased the ball' uses parentheses for:", options: ["A restrictive clause.", "An essential detail.", "An appositive.", "An explanatory aside."], correct: 3 },
+            { question: "30. The passive voice of 'The committee has approved the proposal.' is:", options: ["The proposal has been approved by the committee.", "The proposal was approved by the committee.", "The proposal is approved by the committee.", "The proposal will be approved by the committee."], correct: 0 },
+            { question: "31. 'I said to him, 'Do you know me?' ' The indirect speech is:", options: ["I asked him if he knew me.", "I asked him whether he knows me.", "I asked him that if he knew me.", "I asked him if he had known me."], correct: 0 },
+            { question: "32. A hyphen is used in 'co-author' to:", options: ["Join two words.", "Separate a prefix from the main word.", "Create a new word.", "Emphasize the word."], correct: 1 },
+            { question: "33. 'He whispered, 'I have a secret.' ' The indirect speech is:", options: ["He whispered that he had a secret.", "He whispered that he has a secret.", "He whispered that he would have a secret.", "He whispered that he was having a secret."], correct: 0 },
+            { question: "34. The passive voice of 'They are painting the wall.' is:", options: ["The wall is painted by them.", "The wall is being painted by them.", "The wall has been painted by them.", "The wall was being painted by them."], correct: 1 },
+            { question: "35. In 'The report detailed the findings (see Figure 1)', parentheses are used for:", options: ["An explanatory aside.", "A citation or cross-reference.", "An unfinished thought.", "A dramatic pause."], correct: 1 },
+            { question: "36. 'The patient was treated by a specialist.' The active voice is:", options: ["A specialist has treated the patient.", "A specialist treats the patient.", "A specialist treated the patient.", "The patient treated a specialist."], correct: 2 },
+            { question: "37. How many periods should be used for an ellipsis that indicates an omission from the middle of a sentence?", options: ["Two.", "Three.", "Four.", "Three, plus the end period."], correct: 1 },
+            { question: "38. 'The judge said, 'Bring the witness.' ' The indirect speech is:", options: ["The judge ordered to bring the witness.", "The judge asked to bring the witness.", "The judge commanded that the witness be brought.", "The judge commanded to bring the witness."], correct: 2 },
+            { question: "39. The correct use of a hyphen in 'a two-hundred-and-fifty-page book' is to:", options: ["Join a compound number.", "Link a noun to an adjective.", "Separate words in a list.", "Connect two separate ideas."], correct: 0 },
+            { question: "40. Which sentence is in the active voice?", options: ["The letter was written by her.", "The report will be presented tomorrow.", "The chef is preparing the meal.", "The crime was solved by the police."], correct: 2 },
+            { question: "41. When an entire sentence is enclosed in parentheses, the period goes:", options: ["Inside the parentheses.", "Outside the parentheses.", "Both inside and outside.", "It depends on the context."], correct: 0 },
+            { question: "42. 'The manager said, 'You may leave now.' ' The indirect speech is:", options: ["The manager said that I may leave then.", "The manager said that I might leave then.", "The manager said that I could leave now.", "The manager said that I might have left then."], correct: 1 },
+            { question: "43. The passive voice of 'The rain has destroyed the crops.' is:", options: ["The crops were destroyed by the rain.", "The crops have been destroyed by the rain.", "The crops are destroyed by the rain.", "The crops had been destroyed by the rain."], correct: 1 },
+            { question: "44. 'He said to me, 'Don't make a noise.' ' The indirect speech is:", options: ["He told me not to make a noise.", "He requested me not to make a noise.", "He ordered me to not make a noise.", "He told me to not make a noise."], correct: 0 },
+            { question: "45. The punctuation 'We went to the store, and we bought bread, milk, and eggs.' uses commas for:", options: ["Separating a dependent clause.", "Separating items in a series.", "Joining two independent clauses.", "Indicating a pause."], correct: 1 },
+            { question: "46. What does a hyphen in 'a run-of-the-mill story' do?", options: ["It joins a compound adjective.", "It separates a verb and a noun.", "It indicates a phrase that should be read quickly.", "It's a stylistic choice."], correct: 0 },
+            { question: "47. The active voice of 'The project will be completed by the team.' is:", options: ["The team will complete the project.", "The team completes the project.", "The team has completed the project.", "The team is completing the project."], correct: 0 },
+            { question: "48. 'They announced, 'We have won the championship!' ' The indirect speech is:", options: ["They announced that they had won the championship.", "They announced that they have won the championship.", "They announced that they would win the championship.", "They announced that they won the championship."], correct: 0 },
+            { question: "49. Which of the following is an example of an incomplete thought shown by an ellipsis?", options: ["'I believe... that we should wait.'", "'She said, 'I think...' '", "'The book was a triumph...'", "'He said, 'The train is... running late.'"], correct: 2 },
+            { question: "50. When a parenthetical element appears in the middle of a sentence, the punctuation that follows the closing parenthesis should be:", options: ["A period.", "A comma.", "A semicolon.", "Whatever punctuation is needed by the main sentence."], correct: 3 },
+            { question: "51. The passive voice of 'They are designing a new application.' is:", options: ["A new application is designed by them.", "A new application is being designed by them.", "A new application has been designed by them.", "A new application will be designed by them."], correct: 1 },
+            { question: "52. 'He asked, 'Where is my coat?' ' The indirect speech is:", options: ["He asked where his coat was.", "He asked where is his coat.", "He asked where was his coat.", "He asked where my coat was."], correct: 0 },
+            { question: "53. The correct use of quotation marks for a short story title is:", options: ["I read the story 'The Lottery.'", "I read the story 'The Lottery.'", "I read the story 'The Lottery'.", "I read the story 'The Lottery'." ], correct: 0 },
+            { question: "54. The passive voice of 'The children were building a sandcastle.' is:", options: ["A sandcastle was being built by the children.", "A sandcastle has been built by the children.", "A sandcastle was built by the children.", "A sandcastle had been built by the children."], correct: 0 },
+            { question: "55. 'The car (a vintage Mustang) was very expensive.' The parentheses are used for:", options: ["Essential information.", "A defining detail.", "A sudden thought.", "An aside that can be omitted."], correct: 3 },
+            { question: "56. Which of the following does NOT require a hyphen?", options: ["A well-known singer.", "A fifty-five-page report.", "A happily-married couple.", "An old-fashioned car."], correct: 2 },
+            { question: "57. 'She said, 'I have been studying for hours.' ' The indirect speech is:", options: ["She said that she had been studying for hours.", "She said that she has been studying for hours.", "She said that she was studying for hours.", "She said that she studied for hours."], correct: 0 },
+            { question: "58. The passive voice of 'The council must approve the plan.' is:", options: ["The plan must be approved by the council.", "The plan is approved by the council.", "The plan had been approved by the council.", "The plan will be approved by the council."], correct: 0 },
+            { question: "59. When quoting a speaker who uses another person's quote, what is the correct format?", options: ["He said, 'She told me, 'It's a beautiful day'.' '", "He said, 'She told me, 'It's a beautiful day.' '", "He said, 'She told me, 'It's a beautiful day.'", "He said, 'She told me, 'It's a beautiful day'."], correct: 1 },
+            { question: "60. The passive voice of 'The mechanic repaired the engine.' is:", options: ["The engine was repaired by the mechanic.", "The engine has been repaired by the mechanic.", "The engine is repaired by the mechanic.", "The engine had been repaired by the mechanic."], correct: 0 },
+            { question: "61. A long pause or break in dialogue is best indicated by:", options: ["A hyphen.", "A series of hyphens.", "An ellipsis.", "A period."], correct: 2 },
+            { question: "62. 'She said to me, 'Will you help me?' ' The indirect speech is:", options: ["She asked me if I would help her.", "She asked me that if I would help her.", "She asked me would I help her.", "She asked me if I will help her."], correct: 0 },
+            { question: "63. The use of a hyphen is optional in which of the following?", options: ["A two-hour flight.", "A user-friendly interface.", "A high-school student.", "A well-written essay."], correct: 2 },
+            { question: "64. The passive voice of 'He is writing a letter.' is:", options: ["A letter is written by him.", "A letter is being written by him.", "A letter was written by him.", "A letter has been written by him."], correct: 1 },
+            { question: "65. 'I said to them, 'Let us begin.' ' The indirect speech is:", options: ["I proposed that we should begin.", "I suggested that we might begin.", "I told them to begin.", "I asked them to begin."], correct: 0 },
+            { question: "66. Which punctuation mark is used for parenthetical phrases that are more strongly separated from the main clause than commas?", options: ["Dashes.", "Semicolons.", "Colons.", "Brackets."], correct: 0 },
+            { question: "67. The passive voice of 'The police have arrested the thief.' is:", options: ["The thief has been arrested by the police.", "The thief was arrested by the police.", "The thief is arrested by the police.", "The thief had been arrested by the police."], correct: 0 },
+            { question: "68. 'He said, 'I'm reading a book.' ' The indirect speech is:", options: ["He said that he was reading a book.", "He said that he is reading a book.", "He said that he would be reading a book.", "He said that he had been reading a book."], correct: 0 },
+            { question: "69. What is the correct way to show an omission from the end of a quote that is a complete sentence?", options: ["'... .' ", "'... .'", "'... .'", "'. . . '"], correct: 1 },
+            { question: "70. The active voice of 'The new road is being constructed by the workers.' is:", options: ["The workers are constructing the new road.", "The workers constructed the new road.", "The workers have constructed the new road.", "The workers were constructing the new road."], correct: 0 },
+            { question: "71. In 'The results (see Table 2) were surprising', parentheses are used to:", options: ["Add a non-essential thought.", "Provide a cross-reference.", "Break the flow of the sentence.", "Create a compound adjective."], correct: 1 },
+            { question: "72. The passive voice of 'She cleans the room every day.' is:", options: ["The room is cleaned by her every day.", "The room was cleaned by her every day.", "The room has been cleaned by her every day.", "The room is being cleaned by her every day."], correct: 0 },
+            { question: "73. 'The speaker said, 'We must act now to save our planet.' ' The indirect speech is:", options: ["The speaker said that we must act then to save our planet.", "The speaker said that they must act now to save their planet.", "The speaker said that they must act then to save their planet.", "The speaker said that we must act now to save our planet."], correct: 2 },
+            { question: "74. Which of the following requires a hyphen?", options: ["A well known fact.", "A high speed chase.", "A light hearted moment.", "A friendly-looking dog."], correct: 3 },
+            { question: "75. The passive voice of 'They had finished the work.' is:", options: ["The work had been finished by them.", "The work was finished by them.", "The work has been finished by them.", "The work is finished by them."], correct: 0 },
+            { question: "76. 'I told him, 'You are late.' ' The indirect speech is:", options: ["I told him that he was late.", "I told him that he is late.", "I told him that he would be late.", "I told him that he had been late."], correct: 0 },
+            { question: "77. In the sentence 'The project will be completed on time (I hope)', the parenthetical phrase is:", options: ["A citation.", "A statement of fact.", "An aside that expresses the speaker's attitude.", "A direct quote."], correct: 2 },
+            { question: "78. The passive voice of 'The jury found him guilty.' is:", options: ["He was found guilty by the jury.", "He is found guilty by the jury.", "He has been found guilty by the jury.", "The jury's finding was guilty."], correct: 0 },
+            { question: "79. The phrase 'a never-ending journey' uses a hyphen to form:", options: ["A noun phrase.", "A compound adjective.", "An adverbial phrase.", "A prepositional phrase."], correct: 1 },
+            { question: "80. 'He asked, 'Where is my coat?' ' The indirect speech is:", options: ["He asked where his coat was.", "He asked where is his coat.", "He asked where was his coat.", "He asked where my coat was."], correct: 0 }
+        ];
+
+        let userAnswers = {};
+        let currentQuestionIndex = 0;
+        let timerSeconds = 80 * 60; // 80 minutes for 80 questions
+        let timerInterval;
+        let userName = '';
+
+        const nameEntryContainer = document.getElementById('name-entry-container');
+        const quizContentWrapper = document.getElementById('quiz-content-wrapper');
+        const nameInput = document.getElementById('name-input');
+        const startBtn = document.getElementById('start-btn');
+        const quizForm = document.getElementById('quiz-form');
+        const resultsContainer = document.getElementById('results-container');
+        const timerDisplay = document.getElementById('timer');
+        const modal = document.getElementById('validation-modal');
+        const modalMessage = document.getElementById('modal-message');
+        const modalCloseBtn = document.getElementById('modal-close-btn');
+        const printBtn = document.getElementById('print-btn');
+        const downloadBtn = document.getElementById('download-btn');
+        const userNameResult = document.getElementById('user-name-result');
+        const fullQuizReview = document.getElementById('full-quiz-review');
+
+        // Function to render a single question on the page
+        function renderQuestion(index) {
+            quizForm.innerHTML = ''; // Clear previous questions
+            const q = allQuestions[index];
+
+            const questionBox = document.createElement('div');
+            questionBox.className = 'bg-slate-100 p-6 rounded-2xl shadow-lg mb-6';
+            
+            const questionText = document.createElement('p');
+            // Changed color to bright red
+            questionText.className = 'text-lg sm:text-xl font-bold font-georgia text-[#FF0000] mb-4 flex items-center'; 
+            
+            const questionNumberSpan = document.createElement('span');
+            questionNumberSpan.className = 'question-number-circle';
+            questionNumberSpan.textContent = (index + 1);
+            questionText.appendChild(questionNumberSpan);
+            
+            const questionContentSpan = document.createElement('span');
+            // Remove any HTML tags from the question string before setting innerHTML
+            questionContentSpan.innerHTML = q.question.substring(q.question.indexOf('.') + 2).replace(/<\/?span[^>]*>/g, ""); 
+            questionText.appendChild(questionContentSpan);
+
+            questionBox.appendChild(questionText);
+
+            q.options.forEach((option, optionIndex) => {
+                const label = document.createElement('label');
+                label.className = 'quiz-option-label relative flex items-center p-4 mb-3 rounded-xl bg-white border border-gray-200 cursor-pointer transition-all duration-300 ease-in-out';
+                
+                const input = document.createElement('input');
+                input.type = 'radio';
+                input.name = `question-${index}`;
+                input.value = optionIndex;
+                
+                const optionSpan = document.createElement('span');
+                optionSpan.className = 'ml-3 text-base sm:text-lg text-gray-800 font-medium';
+                // Ensure options are plain text
+                optionSpan.innerHTML = option; 
+                
+                label.appendChild(input);
+                label.appendChild(optionSpan);
+                questionBox.appendChild(label);
+            });
+
+            // Add navigation buttons to the question box
+            const navButtonsDiv = document.createElement('div');
+            navButtonsDiv.className = 'flex justify-between mt-6 space-x-4';
+            
+            // Previous Button
+            const prevBtn = document.createElement('button');
+            prevBtn.id = 'prev-btn';
+            prevBtn.textContent = 'Previous';
+            prevBtn.className = 'w-full text-white font-bold py-3.5 rounded-full shadow-lg transition-colors bg-gray-500 hover:bg-gray-600 no-zoom';
+            prevBtn.addEventListener('click', previousQuestion);
+
+            // Hide the previous button on the first question
+            if (currentQuestionIndex === 0) {
+                prevBtn.classList.add('hidden');
+            }
+
+            // Next/Submit Button
+            let nextBtn;
+            if (currentQuestionIndex === allQuestions.length - 1) {
+                nextBtn = document.createElement('button');
+                nextBtn.id = 'submit-btn';
+                nextBtn.textContent = 'Submit Quiz';
+                nextBtn.className = 'w-full text-white font-bold py-3.5 rounded-full shadow-lg transition-colors submit-btn no-zoom';
+                nextBtn.addEventListener('click', submitQuiz);
+            } else {
+                nextBtn = document.createElement('button');
+                nextBtn.id = 'next-btn';
+                nextBtn.textContent = 'Next';
+                nextBtn.className = 'w-full text-white font-bold py-3.5 rounded-full shadow-lg transition-colors bg-blue-600 hover:bg-blue-700 no-zoom';
+                nextBtn.addEventListener('click', nextQuestion);
+            }
+            
+            navButtonsDiv.appendChild(prevBtn);
+            navButtonsDiv.appendChild(nextBtn);
+            questionBox.appendChild(navButtonsDiv);
+            
+            quizForm.appendChild(questionBox);
+            
+            // Highlight the previously selected answer if it exists
+            if (userAnswers[index] !== undefined) {
+                const selectedLabel = quizForm.querySelector(`input[name="question-${index}"][value="${userAnswers[index]}"]`).closest('label');
+                if (selectedLabel) {
+                    selectedLabel.classList.add('selected');
+                    selectedLabel.querySelector('input').checked = true; // Set the radio button as checked
+                }
+            }
+
+            // Add event listeners for new radio buttons
+            const radioButtons = quizForm.querySelectorAll('input[type="radio"]');
+            radioButtons.forEach(radio => {
+                radio.addEventListener('change', (event) => {
+                    const parentLabel = event.target.closest('label');
+                    const questionBox = parentLabel.closest('div');
+                    
+                    // Remove 'selected' class from all other labels in the same question
+                    questionBox.querySelectorAll('label').forEach(label => {
+                        label.classList.remove('selected');
+                    });
+                    
+                    // Add 'selected' class to the currently chosen label
+                    parentLabel.classList.add('selected');
+                });
+            });
+        }
+        
+        // Function to start the countdown timer
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                timerSeconds--;
+                const minutes = Math.floor(timerSeconds / 60);
+                const seconds = timerSeconds % 60;
+                timerDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                
+                if (timerSeconds <= 0) {
+                    clearInterval(timerInterval);
+                    timerDisplay.textContent = "Time's up!";
+                    submitQuiz();
+                }
+            }, 1000);
+        }
+
+        // Function to show the custom validation modal
+        function showModal(message) {
+            modalMessage.textContent = message;
+            modal.classList.add('active');
+            modal.classList.remove('hidden');
+        }
+
+        // Function to move to the next question
+        function nextQuestion() {
+            const selected = document.querySelector(`input[name="question-${currentQuestionIndex}"]:checked`);
+            if (!selected) {
+                showModal("Please select an option before moving to the next question.");
+                return;
+            }
+            userAnswers[currentQuestionIndex] = parseInt(selected.value);
+            
+            currentQuestionIndex++;
+            if (currentQuestionIndex < allQuestions.length) {
+                renderQuestion(currentQuestionIndex);
+            }
+        }
+        
+        // Function to move to the previous question
+        function previousQuestion() {
+            // Save the current answer before moving back
+            const selected = document.querySelector(`input[name="question-${currentQuestionIndex}"]:checked`);
+            if (selected) {
+                userAnswers[currentQuestionIndex] = parseInt(selected.value);
+            }
+            
+            currentQuestionIndex--;
+            if (currentQuestionIndex >= 0) {
+                renderQuestion(currentQuestionIndex);
+            }
+        }
+        
+        // New function to start the quiz after name entry
+        function startQuiz() {
+            const name = nameInput.value.trim();
+            if (!name) {
+                showModal("Please enter your name to start the quiz.");
+                return;
+            }
+            userName = name;
+            nameEntryContainer.classList.add('hidden');
+            quizContentWrapper.classList.remove('hidden');
+            renderQuestion(currentQuestionIndex);
+            startTimer();
+        }
+
+        // Function to render the full quiz results with correct and incorrect answers highlighted
+        function renderFullResults() {
+            fullQuizReview.innerHTML = ''; // Clear previous review
+            
+            allQuestions.forEach((q, index) => {
+                const questionReviewItem = document.createElement('div');
+                questionReviewItem.className = 'quiz-review-item';
+                
+                const questionText = document.createElement('p');
+                questionText.className = 'quiz-review-question';
+                // Ensure the question content is correctly displayed, including any red highlighting
+                questionText.innerHTML = `<span class="question-number-circle">${index + 1}</span> ${q.question.substring(q.question.indexOf('.') + 2)}`;
+                questionReviewItem.appendChild(questionText);
+
+                q.options.forEach((option, optionIndex) => {
+                    const optionDiv = document.createElement('div');
+                    optionDiv.className = 'quiz-review-option';
+                    
+                    const isCorrect = optionIndex === q.correct;
+                    const isUserAnswer = userAnswers[index] === optionIndex;
+
+                    // Apply green for correct answer
+                    if (isCorrect) {
+                        optionDiv.classList.add('correct');
+                        optionDiv.innerHTML = `✅ ${option}`;
+                    } 
+                    // Apply red for incorrect user answer
+                    else if (isUserAnswer) {
+                        optionDiv.classList.add('incorrect');
+                        optionDiv.innerHTML = `❌ ${option}`;
+                    }
+                    // Default styling for other options
+                    else {
+                        optionDiv.innerHTML = `${String.fromCharCode(65 + optionIndex)}. ${option}`;
+                    }
+                    
+                    questionReviewItem.appendChild(optionDiv);
+                });
+                
+                fullQuizReview.appendChild(questionReviewItem);
+            });
+        }
+
+        // Function to submit the quiz and display results
+        function submitQuiz() {
+            clearInterval(timerInterval); // Stop the timer
+            
+            // Check if the final question is answered
+            const selected = document.querySelector(`input[name="question-${currentQuestionIndex}"]:checked`);
+            if (!selected) {
+                showModal("Please select an option before submitting.");
+                return;
+            }
+            userAnswers[currentQuestionIndex] = parseInt(selected.value);
+
+            // Disable all radio buttons and buttons after submission
+            const allRadios = quizForm.querySelectorAll('input[type="radio"]');
+            allRadios.forEach(radio => radio.disabled = true);
+
+            let score = 0;
+            allQuestions.forEach((q, index) => {
+                if (userAnswers[index] === q.correct) {
+                    score++;
+                }
+            });
+
+            // Display results
+            userNameResult.textContent = `Quiz Taker: ${userName}`;
+            document.getElementById('total-questions').textContent = allQuestions.length;
+            document.getElementById('obtained-marks').textContent = score;
+            
+            // Render the full quiz review
+            renderFullResults();
+
+            // Hide quiz, show results container
+            quizContentWrapper.classList.add('hidden');
+            resultsContainer.classList.remove('hidden');
+            resultsContainer.scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        // Event listeners
+        document.addEventListener('DOMContentLoaded', () => {
+            // Show the name entry screen by default
+            nameEntryContainer.classList.remove('hidden');
+        });
+        
+        startBtn.addEventListener('click', startQuiz);
+        
+        modalCloseBtn.addEventListener('click', () => {
+            modal.classList.add('hidden');
+            modal.classList.remove('active');
+        });
+        
+        // Event listener for the "Print Result" button
+        printBtn.addEventListener('click', () => {
+            window.print();
+        });
+        
+        // Event listener for the "Download Result Card" button
+        downloadBtn.addEventListener('click', () => {
+            const headerContent = document.getElementById('header').innerHTML;
+            const footerContent = document.getElementById('footer').innerHTML;
+            const userName = document.getElementById('user-name-result').textContent;
+            const totalQuestions = document.getElementById('total-questions').textContent;
+            const obtainedMarks = document.getElementById('obtained-marks').textContent;
+
+            // Create a temporary, hidden container for the image generation
+            const tempContainer = document.createElement('div');
+            tempContainer.id = 'download-result-container';
+            document.body.appendChild(tempContainer);
+
+            // Get current date and time
+            const now = new Date();
+            const dateStr = `${String(now.getDate()).padStart(2, '0')}/${String(now.getMonth() + 1).padStart(2, '0')}/${now.getFullYear()}`;
+            const timeStr = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}`;
+            
+            // Build the simplified content for the image
+            tempContainer.innerHTML = `
+                <div class="header-clone">${headerContent}</div>
+                <div class="results-clone">
+                    <h2 class="text-3xl font-extrabold text-center mb-4 text-green-700">English Class 9 Unit 15 MCQs</h2>
+                    <p class="text-lg mb-1 text-center font-bold text-gray-700">By SSTs Paid Course by Imran Ustad</p>
+                    <p class="text-lg mb-3 text-center font-extrabold text-green-600">${userName}</p>
+                    <p class="text-lg text-gray-700 mt-4 text-center">Date: ${dateStr} - Time: ${timeStr}</p>
+                    <p class="text-lg mb-3 text-center">
+                        Total Questions: <span class="font-extrabold text-green-600">${totalQuestions}</span>
+                    </p>
+                    <p class="text-lg mb-6 text-center">
+                        Obtained Marks: <span class="font-extrabold text-green-600">${obtainedMarks}</span>
+                    </p>
+                </div>
+                <div class="footer-clone">${footerContent}</div>
+            `;
+            
+            // Use html2canvas to capture the content of the temporary container
+            html2canvas(tempContainer, {
+                scale: 2, // Increase scale for a higher-quality image
+                useCORS: true,
+                backgroundColor: '#ffffff'
+            }).then(canvas => {
+                const image = canvas.toDataURL('image/png');
+                const link = document.createElement('a');
+                link.href = image;
+                link.download = 'English_Grammar_Quiz_Result_Card.png';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            }).finally(() => {
+                // Clean up the temporary container
+                document.body.removeChild(tempContainer);
+            });
+        });
+    </script>
+</body>
+</html>
